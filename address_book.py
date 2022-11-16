@@ -34,6 +34,13 @@ class AddBook(BaseModel):
 def read_api(db: Session = Depends(get_db)):
     return db.query(models.AddBook).all()
 
+@app.get("/{address_book_id}")
+#Search API
+def search_address_book(address_book_id: int, db: Session = Depends(get_db)):
+    add_book_model = db.query(models.AddBook).filter(models.AddBook.id == address_book_id).first()
+    return add_book_model
+
+
 #creating data
 @app.post("/")
 def create_address_book(addbook: AddBook, db: Session = Depends(get_db)):
